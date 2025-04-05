@@ -1,0 +1,41 @@
+services:
+  - type: web
+    name: disaster-response-system
+    env: node
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: VITE_GOOGLE_MAPS_API_KEY
+        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: disaster-db
+          property: connectionString
+      - key: PGUSER
+        fromDatabase:
+          name: disaster-db
+          property: user
+      - key: PGHOST
+        fromDatabase:
+          name: disaster-db
+          property: host
+      - key: PGPASSWORD
+        fromDatabase:
+          name: disaster-db
+          property: password
+      - key: PGDATABASE
+        fromDatabase:
+          name: disaster-db
+          property: database
+      - key: PGPORT
+        fromDatabase:
+          name: disaster-db
+          property: port
+
+databases:
+  - name: disaster-db
+    databaseName: disaster_db
+    user: disaster_user
+    plan: free
